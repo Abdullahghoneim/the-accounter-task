@@ -1,11 +1,8 @@
-import { useContext } from "react";
-import "./App.css";
-import { AuthContext } from "./context/auth/auth.context";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./Routes";
+import "./App.css";
 
 function App() {
-  const { authState } = useContext(AuthContext);
   return (
     <main className="">
       <Router>

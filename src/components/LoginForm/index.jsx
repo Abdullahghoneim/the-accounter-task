@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from 'axios';
 import { AuthContext } from '../../context/auth/auth.context';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = yup.object({
     contact: yup.string().required("Email Required").email('Invalid Email'),
@@ -20,6 +21,12 @@ function LoginForm() {
         }
     });
 
+
+    // navigate hook
+    const navigate = useNavigate();
+
+
+    // auth context
     const { authDispatch } = useContext(AuthContext);
 
     const onSubmit = async (data) => {
@@ -29,6 +36,8 @@ function LoginForm() {
             type: "SIGNIN_SUCCESS",
             payload: response.data
         });
+        // redirect to home after login
+        navigate('/');
     };
 
     return (
@@ -44,7 +53,8 @@ function LoginForm() {
                     <Button className="bg-[#04C35C] text-white rounded" type="submit" > Login now  </Button>
                 </div>
                 <div className='mt-5'>
-                    <Button className="bg-[#2D3748]  text-white rounded" type="submit" >
+                    <Button className="bg-[#2D3748] flex items-center justify-center gap-2  text-white rounded" type="submit" >
+                        <img src="/images/google.png" width={20} alt="" />
                         Or sign-in with google
                     </Button>
                 </div>

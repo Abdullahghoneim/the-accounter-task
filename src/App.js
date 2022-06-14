@@ -1,14 +1,16 @@
 import { useContext } from "react";
 import "./App.css";
 import { AuthContext } from "./context/auth/auth.context";
-import LoginPage from "./Pages/Login/index.";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./Routes/router";
 
 function App() {
   const { authState } = useContext(AuthContext);
-  console.log(authState);
   return (
     <main className="">
-      <LoginPage />
+      <Router>
+        <AppRoutes />
+      </Router>
     </main>
   );
 }

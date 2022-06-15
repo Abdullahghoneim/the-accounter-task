@@ -8,6 +8,8 @@ module.exports = {
         transparent: "transparent",
         current: "currentColor",
         primary_default: "#00ACC4",
+        green_color: "#04C35C",
+        backed_color: "#2C5282",
       },
     },
   },

@@ -61,7 +61,7 @@ function LoginForm() {
                     </div>
                 </div>
                 <div className='mt-5'>
-                    <Button className="bg-[#04C35C] text-white rounded" type="submit" > Login now  </Button>
+                    <Button className="bg-green_color text-white rounded" type="submit" > Login now  </Button>
                 </div>
                 <div className='mt-5'>
                     <Button className="bg-[#2D3748] flex items-center justify-center gap-2  text-white rounded" type="submit" >
@@ -72,7 +72,7 @@ function LoginForm() {
             </form>
             <div className='w-full absolute bottom-10 text-center'>
                 <p className='text-center'>
-                    Don't have an account? <a className='text-[#2C5282]' href='/'>Join free today</a>
+                    Don't have an account? <a className='text-backed_color' href='/'>Join free today</a>
                 </p>
             </div>
         </div>

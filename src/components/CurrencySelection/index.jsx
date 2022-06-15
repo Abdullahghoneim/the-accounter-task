@@ -1,12 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import httpClient from '../../utils/httpClient'
+import arraySearch from '../../utils/arraySearch';
+import httpClient from '../../utils/httpClient';
+
+
 
 function CurrencySelection() {
 
     const [currency, setCurrency] = useState([]);
+    const [allList, setAllList] = useState([]);
 
 
     const token = localStorage.getItem("access_token")
+
+    const handleOnChange = async (e) => {
+        let value = e.target.value;
+        // handel search input
+        if (value.length > 0) {
+            const result = arraySearch(allList, value)
+            setCurrency(result)
+        }
+        // handel clear input
+        if (value.length === 0) {
+            setCurrency(allList)
+        }
+    }
+
 
     const getCurrency = async () => {
         const response = await httpClient.get(`/base/currency/1`, {
@@ -14,6 +32,7 @@ function CurrencySelection() {
                 Authorization: `Bearer ${token}`
             }
         })
+        setAllList(response.data)
         setCurrency(response.data)
     }
 
@@ -27,7 +46,7 @@ function CurrencySelection() {
                 <div>
                     <img src="/images/search-interface-symbol.png" alt="" />
                 </div>
-                <input type="text" className='w-full p-1 outline-none' placeholder='Search' />
+                <input type="text" className='w-full p-1 outline-none' onChange={handleOnChange} placeholder='Search' />
             </div>
             <div className='overflow-y-scroll pl-2 h-80'>
                 {

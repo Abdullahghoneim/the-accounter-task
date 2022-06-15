@@ -34,9 +34,14 @@ function CurrencySelection() {
                     currency.map((item, index) => {
                         return (
                             <div key={index} className='p-2 flex gap-2 items-center'>
-                                <div className='flex gap-2'>
-                                    <img src={item.flag} width={20} alt="" />
-                                    <span> {item.name}</span>
+                                <div class="form-check">
+                                    <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-primary_default checked:border-primary_default focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id={index} />
+                                    <label class="form-check-label inline-block text-gray-800" for={index}>
+                                        <div className='flex gap-2'>
+                                            <img src={item.flag} width={20} alt="" />
+                                            <span> {item.name}</span>
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                         )

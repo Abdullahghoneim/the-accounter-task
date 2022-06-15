@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Button from '../Button'
 import Input from '../Input'
 import { useForm } from "react-hook-form";
@@ -8,6 +8,7 @@ import { AuthContext } from '../../context/auth/auth.context';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../Checkbox';
 import httpClient from '../../utils/httpClient';
+import Spinner from '../Spinner';
 
 const validationSchema = yup.object({
     contact: yup.string().required("Email Required").email('Invalid Email'),
@@ -15,10 +16,12 @@ const validationSchema = yup.object({
 });
 
 function LoginForm() {
+    const [loginError, setLoginError] = useState();
+    const [submiting, setSubmiting] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationSchema), defaultValues: {
-            contact: 'hussien@theaccounter.test',
-            password: '12345678'
+            contact: '',
+            password: ''
         }
     });
 
@@ -31,24 +34,31 @@ function LoginForm() {
     const { authDispatch } = useContext(AuthContext);
 
     const onSubmit = async (data) => {
-        const response = await httpClient.post(`/user-management/login/`, data)
-
-        // check if user select remember save token in locale storage 
-        if (data.remember) {
-            localStorage.setItem("access_token", response.data.access_token);
+        setSubmiting(true);
+        try {
+            const response = await httpClient.post(`/user-management/login/`, data)
+            // check if user select remember save token in locale storage 
+            setSubmiting(false);
+            if (data.remember) {
+                localStorage.setItem("access_token", response.data.access_token);
+            }
+            authDispatch({
+                type: "SIGNIN_SUCCESS",
+                payload: response.data
+            });
+            // redirect to home after login
+            navigate('/');
+        } catch (error) {
+            setLoginError('Invalid Email or Password');
+            setSubmiting(false);
         }
-        authDispatch({
-            type: "SIGNIN_SUCCESS",
-            payload: response.data
-        });
-        // redirect to home after login
-        navigate('/');
     };
 
     return (
         <div className='w-full h-full justify-center flex flex-col relative'>
             <p className='text-[#2D3748] font-lg'> welcome back </p>
             <h1 className='text-[#1A202C] mt-1 font-bold text-2xl' >Login to your account</h1>
+            {loginError && <p className='text-red-500 mt-5 text-sm'>{loginError}</p>}
             <form onSubmit={handleSubmit(onSubmit)} >
                 <Input register={{ ...register("contact") }} placeholder="John.snow@gmail.com" label="Email" type="email" />
                 {errors?.contact && <p className='text-red-500'>{errors.contact.message}</p>}
@@ -61,7 +71,11 @@ function LoginForm() {
                     </div>
                 </div>
                 <div className='mt-5'>
-                    <Button className="bg-green_color text-white rounded" type="submit" > Login now  </Button>
+                    <Button disabled={submiting} className="bg-green_color text-white rounded" type="submit" >
+                        {
+                            submiting ? <Spinner /> : "Login now"
+                        }
+                    </Button>
                 </div>
                 <div className='mt-5'>
                     <Button className="bg-[#2D3748] flex items-center justify-center gap-2  text-white rounded" type="submit" >

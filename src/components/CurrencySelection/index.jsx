@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../context/auth/auth.context';
 import arraySearch from '../../utils/arraySearch';
 import httpClient from '../../utils/httpClient';
 
@@ -10,7 +11,10 @@ function CurrencySelection() {
     const [allList, setAllList] = useState([]);
 
 
-    const token = localStorage.getItem("access_token")
+    // get user token if user not select remember me
+    const { authState } = useContext(AuthContext);
+
+    const token = localStorage.getItem("access_token") || authState.user?.access_token;
 
     const handleOnChange = async (e) => {
         let value = e.target.value;

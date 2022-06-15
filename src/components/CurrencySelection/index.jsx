@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../../context/auth/auth.context';
 import arraySearch from '../../utils/arraySearch';
@@ -30,17 +31,16 @@ function CurrencySelection() {
     }
 
 
-    const getCurrency = async () => {
-        const response = await httpClient.get(`/base/currency/1`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-        setAllList(response.data)
-        setCurrency(response.data)
-    }
-
     useEffect(() => {
+        const getCurrency = async () => {
+            const response = await httpClient.get(`/base/currency/1`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setAllList(response.data)
+            setCurrency(response.data)
+        }
         getCurrency()
     }, [])
 

@@ -4,10 +4,10 @@ import Input from '../Input'
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import axios from 'axios';
 import { AuthContext } from '../../context/auth/auth.context';
 import { useNavigate } from 'react-router-dom';
 import Checkbox from '../Checkbox';
+import httpClient from '../../utils/httpClient';
 
 const validationSchema = yup.object({
     contact: yup.string().required("Email Required").email('Invalid Email'),
@@ -31,9 +31,9 @@ function LoginForm() {
     const { authDispatch } = useContext(AuthContext);
 
     const onSubmit = async (data) => {
-        const response = await axios.post(`https://web-dev-api.theaccounter.net/user-management/login/`, data)
+        const response = await httpClient.post(`/user-management/login/`, data)
 
-        // check if user select remember save token in localstorage 
+        // check if user select remember save token in locale storage 
         if (data.remember) {
             localStorage.setItem("access_token", response.data.access_token);
         }

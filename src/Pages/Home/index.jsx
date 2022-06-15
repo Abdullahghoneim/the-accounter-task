@@ -1,8 +1,11 @@
 import React from 'react'
+import CurrencySelection from '../../components/CurrencySelection'
 
 function Home() {
     return (
-        <div>Home</div>
+        <div className='min-h-screen flex justify-center content-center items-center' >
+            <CurrencySelection />
+        </div>
     )
 }
 
